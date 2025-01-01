@@ -1,0 +1,31 @@
+//Leetcode - 1422
+class Solution {
+    public int maxScore(String s) {
+        int n = s.length();
+        int left[] = new int[n-1];
+        int right[] = new int[n-1];
+        if(s.charAt(0) =='0')
+         left[0] = 1;
+        for(int i = 1;i < left.length;i++){
+           if(s.charAt(i) == '0')
+            left[i] = left[i-1] + 1;
+           else
+            left[i] = left[i-1]; 
+        }
+        int j = n-1;
+        if(s.charAt(j--) == '1')
+        right[right.length-1] = 1;
+        
+        for(int i = n-3;i >= 0;i--){
+            if(s.charAt(j--) == '1')
+             right[i] = right[i+1] + 1;
+             else
+             right[i]=right[i+1];
+        }
+        int max = Integer.MIN_VALUE;
+        for(int i = 0;i < n-1;i++){
+            max = Math.max(max,left[i]+right[i]);
+        }
+        return max;
+    }
+}
