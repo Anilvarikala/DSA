@@ -1,0 +1,46 @@
+//leetcode - 2559
+class Solution {
+
+    public boolean isVowel(char ch){
+      return ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u';
+    }
+    public int[] vowelStrings(String[] words, int[][] queries) {
+        int pre[] = new int[words.length];
+        int idx=0;
+        for(String str : words){
+            char a = str.charAt(0);
+            char b = str.charAt(str.length()-1);
+            if(isVowel(a) && isVowel(b)){
+                pre[idx++] = 1;
+            }
+            else{
+                pre[idx++] = 0;
+            }
+        }
+
+        for(int i = 1;i < pre.length;i++){
+            pre[i] += pre[i-1];
+        }
+        for(int i:pre)
+        System.out.println(i + " ");
+                int ret[] = new int[queries.length];
+        int k = 0;
+        for(int[] arr : queries){
+            int l = arr[0];
+            int r = arr[1];
+            if(l==0){
+                ret[k++] = pre[r];
+            }
+            else if(l == r){
+                if(isVowel(words[l].charAt(0)) && isVowel(words[l].charAt(words[l].length()-1)))
+                 ret[k++] = 1;
+                else
+                 ret[k++] = 0; 
+            }
+           
+            else
+              ret[k++] = pre[r] - pre[l-1];
+        }
+        return ret;
+    }
+}
